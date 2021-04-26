@@ -1,1 +1,1 @@
-export { default as OrderBook } from './OrderBookContainer';
+export { default as OrderBook } from './OrderBook';
