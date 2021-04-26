@@ -2,10 +2,7 @@ import { createReducer } from 'typesafe-actions';
 
 export interface OrderBookState {
   error: any | null;
-  data: {
-    bids: Order[];
-    asks: Order[];
-  };
+  data: OrderBookData;
 }
 
 export const initialState: OrderBookState = {
