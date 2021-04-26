@@ -1,7 +1,7 @@
 import { combineReducers, createStore } from 'redux';
 import orderBook from './orderBook';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   orderBook,
 });
 

@@ -1,7 +1,5 @@
 import { createReducer } from 'typesafe-actions';
 
-type Order = [number, number];
-
 export interface OrderBookState {
   error: any | null;
   data: {
