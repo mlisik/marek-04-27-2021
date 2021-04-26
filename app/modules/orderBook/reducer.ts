@@ -16,7 +16,6 @@ export const initialState: OrderBookState = {
   },
 };
 
-// TODO: define State and RootAction types
-const reducer = createReducer<OrderBookState, any>(initialState);
+const reducer = createReducer<OrderBookState, RootAction>(initialState);
 
 export default reducer;

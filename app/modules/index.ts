@@ -1,5 +1,9 @@
 import { combineReducers, createStore } from 'redux';
-import orderBook from './orderBook';
+import orderBook, { actions as orderBookActions } from './orderBook';
+
+export const actions = {
+  ...orderBookActions,
+};
 
 export const rootReducer = combineReducers({
   orderBook,
