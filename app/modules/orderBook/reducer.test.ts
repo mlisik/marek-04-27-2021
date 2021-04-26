@@ -16,22 +16,8 @@ describe('mergeOrders', () => {
     const incoming: Order[] = [[54, 5]];
 
     expect(mergeOrders(state, incoming)).toEqual([
+      [54, 5],
       [55, 10],
-      [54, 5],
-    ]);
-  });
-
-  it('should sort results in descending order', () => {
-    const state: Order[] = [[54, 5]];
-    const incoming: Order[] = [
-      [55, 2],
-      [53, 1],
-    ];
-
-    expect(mergeOrders(state, incoming)).toEqual([
-      [55, 2],
-      [54, 5],
-      [53, 1],
     ]);
   });
 });
@@ -44,8 +30,8 @@ describe('reducer', () => {
       type: '@orderBook/messageReceived',
       payload: {
         asks: [
-          [55, 2],
           [53, 1],
+          [55, 2],
         ],
         bids: [
           [52, 1],
@@ -82,8 +68,8 @@ describe('reducer', () => {
 
     expect(reducer(state, action).data).toEqual({
       asks: [
-        [55, 2],
         [53, 1],
+        [55, 2],
       ],
       bids: [
         [52, 1],

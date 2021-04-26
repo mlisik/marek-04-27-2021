@@ -15,7 +15,7 @@ export const initialState: OrderBookState = {
 
 /**
  * Given arrays of existing and incoming orders, returns a new array
- * that overrides sizes for existing price points and removes
+ * that overrides sizes for existing price points and removes orders with size 0
  */
 export const mergeOrders = (state: Order[], incoming: Order[]) => {
   let result: Order[] = incoming;
@@ -28,9 +28,12 @@ export const mergeOrders = (state: Order[], incoming: Order[]) => {
     result.push([price, size]);
   });
 
-  return result.filter(([_, size]) => size > 0).sort(([a], [b]) => b - a);
+  return result.filter(([, size]) => size > 0);
 };
 
+/**
+ * note: bids are sorted descending, asks ascending
+ */
 const reducer = createReducer<OrderBookState, RootAction>(initialState)
   .handleType('@orderBook/errorReceived', (state, { payload: error }) => {
     return {
@@ -44,8 +47,8 @@ const reducer = createReducer<OrderBookState, RootAction>(initialState)
       return {
         error: null,
         data: {
-          bids: mergeOrders(state.data.bids, bids),
-          asks: mergeOrders(state.data.asks, asks),
+          bids: mergeOrders(state.data.bids, bids).sort(([a], [b]) => b - a),
+          asks: mergeOrders(state.data.asks, asks).sort(([a], [b]) => a - b),
         },
       };
     },
