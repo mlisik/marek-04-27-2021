@@ -5,6 +5,4 @@ export const messageReceived = createAction('@orderBook/messageReceived')<{
   asks: Order[];
 }>();
 
-export const errorReceived = createAction(
-  '@orderBook/errorReceived',
-)<WebSocketErrorEvent>();
+export const errorReceived = createAction('@orderBook/errorReceived')<string>();

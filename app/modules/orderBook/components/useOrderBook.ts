@@ -36,7 +36,7 @@ const useOrderBook = () => {
     socket.onopen = subscribe;
 
     socket.onerror = event => {
-      dispatch(errorReceived(event));
+      dispatch(errorReceived(event.message));
     };
 
     socket.onmessage = (event: WebSocketMessageEvent) => {
