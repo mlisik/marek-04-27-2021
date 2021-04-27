@@ -9,19 +9,14 @@ import { messageReceived } from '../actions';
 import OrderBook from './OrderBookContainer';
 import { SOCKET_SUBSCRIBE_MESSAGE, SOCKET_URL } from './useOrderBook';
 
-const store = configureMockStore<RootState>()({
-  orderBook: {
-    error: null,
-    data: {
-      bids: [],
-      asks: [],
-    },
-  },
-});
+const createStore = configureMockStore<RootState>();
 
+let mockStore = createStore({
+  orderBook: { error: undefined, data: { bids: [], asks: [] } },
+});
 let server: WS;
 
-const renderComponent = () =>
+const renderComponent = (store = mockStore) =>
   render(
     <Provider store={store}>
       <OrderBook />
@@ -33,7 +28,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  store.clearActions();
+  mockStore.clearActions();
   WS.clean();
 });
 
@@ -56,7 +51,7 @@ it('should dispatch correct action when an error occurs', async () => {
     await server.error();
   });
 
-  expect(store.getActions()[0].type).toBe('@orderBook/errorReceived');
+  expect(mockStore.getActions()[0].type).toBe('@orderBook/errorReceived');
 });
 
 it('should dispatch correct action when a message is received', async () => {
@@ -69,7 +64,27 @@ it('should dispatch correct action when a message is received', async () => {
     await server.send(JSON.stringify({ bids: [[1, 1]], asks: [[2, 2]] }));
   });
 
-  expect(store.getActions()).toEqual([
+  expect(mockStore.getActions()).toEqual([
     messageReceived({ bids: [[1, 1]], asks: [[2, 2]] }),
   ]);
+});
+
+it('should render error when error was received', () => {
+  mockStore = createStore({
+    orderBook: { error: 'Error', data: { bids: [], asks: [] } },
+  });
+
+  const { queryByTestId } = renderComponent(mockStore);
+
+  expect(queryByTestId('OrderBookError')).toBeTruthy();
+});
+
+it('should render loader before error or first message are received', () => {
+  mockStore = createStore({
+    orderBook: { error: undefined, data: { bids: [], asks: [] } },
+  });
+
+  const { queryByTestId } = renderComponent(mockStore);
+
+  expect(queryByTestId('OrderBookLoading')).toBeTruthy();
 });

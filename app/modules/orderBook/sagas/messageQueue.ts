@@ -9,6 +9,12 @@ type MessageReceived = Extract<
 
 const BATCH_SIZE = 6;
 
+/**
+ * Collects incoming messages to process in a batch to reduce store update / render frequency
+ *
+ * NOTE: encountered an edge where ws only provides one message and goes silent, no messages or errors,
+ * consider passing first message through as is if state is empty
+ */
 function* messageQueue() {
   while (true) {
     const batched: MessageReceived[] = [];

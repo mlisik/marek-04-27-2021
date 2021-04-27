@@ -83,5 +83,5 @@ it('should clear error when a new message is received', () => {
     },
   };
 
-  expect(reducer(state, action).error).toBeNull();
+  expect(reducer(state, action).error).toBeUndefined();
 });

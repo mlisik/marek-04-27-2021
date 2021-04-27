@@ -18,7 +18,7 @@ function isOrderBookData(data: any): data is OrderBookData {
   );
 }
 
-// TODO: handle other / multiple product ids
+// TODO: handle other / multiple product ids, FIXME: handle/manage subscription state in full via redux?
 const useOrderBook = () => {
   const socket = useRef(new WebSocket(SOCKET_URL)).current;
   const dispatch = useDispatch();
