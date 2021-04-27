@@ -1,4 +1,5 @@
 import { createReducer } from 'typesafe-actions';
+import { mergeOrders } from './utilities';
 
 export interface OrderBookState {
   error: string | null;
@@ -14,24 +15,6 @@ export const initialState: OrderBookState = {
 };
 
 /**
- * Given arrays of existing and incoming orders, returns a new array
- * that overrides sizes for existing price points and removes orders with size 0
- */
-export const mergeOrders = (state: Order[], incoming: Order[]) => {
-  let result: Order[] = incoming;
-
-  state.forEach(([price, size]) => {
-    if (incoming.find(el => el[0] === price)) {
-      return;
-    }
-
-    result.push([price, size]);
-  });
-
-  return result.filter(([, size]) => size > 0);
-};
-
-/**
  * note: bids are sorted descending, asks ascending
  */
 const reducer = createReducer<OrderBookState, RootAction>(initialState)
@@ -42,7 +25,7 @@ const reducer = createReducer<OrderBookState, RootAction>(initialState)
     };
   })
   .handleType(
-    '@orderBook/messageReceived',
+    '@orderBook/messageReceivedBatched',
     (state, { payload: { bids, asks } }) => {
       return {
         error: null,
