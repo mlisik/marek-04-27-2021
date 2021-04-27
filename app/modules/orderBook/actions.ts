@@ -13,4 +13,6 @@ export const messageReceivedBatched = createAction(
   '@orderBook/messageReceivedBatched',
 )<MessageReceivedPayload>();
 
-export const errorReceived = createAction('@orderBook/errorReceived')<string>();
+export const errorReceived = createAction('@orderBook/errorReceived')<
+  string | undefined
+>();

@@ -3,9 +3,9 @@ import { useDispatch } from 'react-redux';
 
 import { messageReceived, errorReceived } from './../actions';
 
-const SOCKET_URL = 'wss://www.cryptofacilities.com/ws/v1';
+export const SOCKET_URL = 'wss://www.cryptofacilities.com/ws/v1';
 
-const SOCKET_SUBSCRIBE_MESSAGE = JSON.stringify({
+export const SOCKET_SUBSCRIBE_MESSAGE = JSON.stringify({
   event: 'subscribe',
   feed: 'book_ui_1',
   product_ids: ['PI_XBTUSD'],
@@ -41,19 +41,19 @@ const useOrderBook = () => {
 
     socket.onmessage = (event: WebSocketMessageEvent) => {
       if (typeof event.data !== 'string') {
-        return;
+        throw new Error('Incorrect data. Expected: string');
       }
 
       try {
         const data = JSON.parse(event.data);
 
         if (!isOrderBookData(data)) {
-          return; // incorrect data
+          throw new Error('Incorrect data. Expected: OrderBookData');
         }
 
         dispatch(messageReceived(data));
       } catch (error) {
-        return;
+        return; // silent catch, TODO: report
       }
     };
 
