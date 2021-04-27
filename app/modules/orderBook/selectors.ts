@@ -22,9 +22,8 @@ export const selectMaxSize = ({ orderBook: { data } }: RootState) =>
 /**
  * Picks first 5 orders, adds accumulated and max size properties
  */
-export const selectBids = (state: RootState) => {
-  return accumulateSize(state.orderBook.data.bids);
-};
+export const selectBids = (state: RootState) =>
+  accumulateSize(state.orderBook.data.bids);
 
 /**
  * Picks first 5 orders, adds accumulated and max size properties, and sorts the result descending

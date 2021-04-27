@@ -11,7 +11,7 @@ export default function* rootSaga() {
             yield call(saga);
             break;
           } catch (err) {
-            console.warn(err);
+            // silent catch, TODO: report
           }
         }
       }),

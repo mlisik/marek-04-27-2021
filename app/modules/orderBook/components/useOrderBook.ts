@@ -1,7 +1,7 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { messageReceived, errorReceived } from './../actions';
+import { messageReceived, errorReceived } from '../actions';
 
 export const SOCKET_URL = 'wss://www.cryptofacilities.com/ws/v1';
 
@@ -53,7 +53,7 @@ const useOrderBook = () => {
 
         dispatch(messageReceived(data));
       } catch (error) {
-        return; // silent catch, TODO: report
+        // silent catch, TODO: report
       }
     };
 

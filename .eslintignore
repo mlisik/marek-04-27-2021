@@ -1,0 +1,8 @@
+ios/
+android/
+node_modules/
+typings/i18n-js.d.ts
+babel.config.js
+metro.config.js
+jest.config.js
+.eslintrc.js

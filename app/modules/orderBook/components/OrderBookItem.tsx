@@ -17,6 +17,23 @@ export interface OrderBookItemProps extends OrderBookItemData {
 
 const { width } = Dimensions.get('window');
 
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    paddingHorizontal: 32,
+  },
+  cell: {
+    flex: 1,
+    marginVertical: 4,
+    color: 'white',
+    fontFamily: Platform.select({ ios: 'Courier', android: 'monospace' }),
+    textAlign: 'right',
+  },
+  backgroundContainer: StyleSheet.absoluteFillObject,
+  flashBackground: { backgroundColor: 'white' },
+  background: { height: '100%', opacity: 0.2 },
+});
+
 function OrderBookItem({
   price,
   size,
@@ -70,22 +87,5 @@ function OrderBookItem({
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    paddingHorizontal: 32,
-  },
-  cell: {
-    flex: 1,
-    marginVertical: 4,
-    color: 'white',
-    fontFamily: Platform.select({ ios: 'Courier', android: 'monospace' }),
-    textAlign: 'right',
-  },
-  backgroundContainer: StyleSheet.absoluteFillObject,
-  flashBackground: { backgroundColor: 'white' },
-  background: { height: '100%', opacity: 0.2 },
-});
 
 export default OrderBookItem;

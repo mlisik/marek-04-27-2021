@@ -10,6 +10,10 @@ export interface OrderBookProps {
   maxSize: number;
 }
 
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#1c2a31' },
+});
+
 function OrderBook({ bids, asks, maxSize }: OrderBookProps) {
   return (
     <SafeAreaView style={styles.container}>
@@ -28,9 +32,5 @@ function OrderBook({ bids, asks, maxSize }: OrderBookProps) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#1c2a31' },
-});
 
 export default OrderBook;

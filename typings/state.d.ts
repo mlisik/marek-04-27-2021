@@ -16,10 +16,7 @@ declare global {
     accumulatedSize: number;
   };
 
-  // FIXME: rootReducer, actions is not defined
-  // eslint-disable-next-line no-undef
   type RootState = StateType<typeof rootReducer>;
-  // eslint-disable-next-line no-undef
   type RootAction = ActionType<typeof actions>;
 }
 

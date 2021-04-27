@@ -1,5 +1,5 @@
-import { messageReceived, messageReceivedBatched } from './../actions';
-import { put, take } from '@redux-saga/core/effects';
+import { put, take } from 'redux-saga/effects';
+import { messageReceived, messageReceivedBatched } from '../actions';
 import { mergeOrders } from '../utilities';
 
 type MessageReceived = Extract<
@@ -11,7 +11,7 @@ const BATCH_SIZE = 6;
 
 function* messageQueue() {
   while (true) {
-    let batched: MessageReceived[] = [];
+    const batched: MessageReceived[] = [];
 
     while (batched.length < BATCH_SIZE) {
       const action: MessageReceived = yield take(messageReceived);
@@ -19,12 +19,10 @@ function* messageQueue() {
     }
 
     const data = batched.reduce(
-      ({ bids, asks }, { payload }) => {
-        return {
-          bids: mergeOrders(bids, payload.bids, false),
-          asks: mergeOrders(asks, payload.asks, false),
-        };
-      },
+      ({ bids, asks }, { payload }) => ({
+        bids: mergeOrders(bids, payload.bids, false),
+        asks: mergeOrders(asks, payload.asks, false),
+      }),
       {
         bids: [] as Order[],
         asks: [] as Order[],

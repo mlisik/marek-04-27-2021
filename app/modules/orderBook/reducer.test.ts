@@ -22,7 +22,7 @@ it('with empty state, should handle incoming orders', () => {
 
 it('with existing state, should handle incoming orders', () => {
   const state: OrderBookState = {
-    error: null,
+    error: undefined,
     data: {
       asks: [[55, 1]],
       bids: [[50, 1]],

@@ -1,5 +1,5 @@
-import { messageReceived, messageReceivedBatched } from './../actions';
 import { expectSaga } from 'redux-saga-test-plan';
+import { messageReceived, messageReceivedBatched } from '../actions';
 import messageQueue from './messageQueue';
 
 const emptyData: OrderBookData = { bids: [], asks: [] };
