@@ -36,15 +36,16 @@ const useOrderBook = () => {
     socket.onopen = subscribe;
 
     socket.onerror = event => {
+      // TODO: check if we should close connection in case of any errors
       dispatch(errorReceived(event.message));
     };
 
     socket.onmessage = (event: WebSocketMessageEvent) => {
-      if (typeof event.data !== 'string') {
-        throw new Error('Incorrect data. Expected: string');
-      }
-
       try {
+        if (typeof event.data !== 'string') {
+          throw new Error('Incorrect data. Expected: string');
+        }
+
         const data = JSON.parse(event.data);
 
         if (!isOrderBookData(data)) {

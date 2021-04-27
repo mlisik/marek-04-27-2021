@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
 function OrderBook({ bids, asks, maxSize }: OrderBookProps) {
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView testID="OrderBook" style={styles.container}>
       <Header />
       {asks.map(ask => (
         <OrderBookItem key={ask.price} {...ask} maxSize={maxSize} tint="red" />

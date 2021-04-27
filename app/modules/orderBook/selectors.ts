@@ -32,3 +32,5 @@ export const selectAsks = (state: RootState) =>
   accumulateSize(state.orderBook.data.asks).sort(
     ({ price: a }, { price: b }) => b - a,
   );
+
+export const selectOrderBookError = (state: RootState) => state.orderBook.error;
