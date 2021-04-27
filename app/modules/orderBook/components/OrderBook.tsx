@@ -1,27 +1,29 @@
 import React from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { useSelector } from 'react-redux';
 
-import { selectBids, selectAsks, selectMaxSize } from '../selectors';
 import Header from './Header';
-import OrderItem from './OrderItem';
-import useOrderBook from './useOrderBook';
+import OrderBookItem from './OrderBookItem';
 
-function OrderBook() {
-  useOrderBook();
+export interface OrderBookProps {
+  bids: OrderBookItemData[];
+  asks: OrderBookItemData[];
+  maxSize: number;
+}
 
-  const bids = useSelector(selectBids);
-  const asks = useSelector(selectAsks);
-  const maxSize = useSelector(selectMaxSize);
-
+function OrderBook({ bids, asks, maxSize }: OrderBookProps) {
   return (
     <SafeAreaView style={styles.container}>
       <Header />
       {asks.map(ask => (
-        <OrderItem key={ask.price} {...ask} maxSize={maxSize} tint="red" />
+        <OrderBookItem key={ask.price} {...ask} maxSize={maxSize} tint="red" />
       ))}
       {bids.map(bid => (
-        <OrderItem key={bid.price} {...bid} maxSize={maxSize} tint="green" />
+        <OrderBookItem
+          key={bid.price}
+          {...bid}
+          maxSize={maxSize}
+          tint="green"
+        />
       ))}
     </SafeAreaView>
   );

@@ -1,9 +1,3 @@
-type OrderBookItem = {
-  price: number;
-  size: number;
-  accumulatedSize: number;
-};
-
 /**
  * Picks first 5 orders, adds acucmulated property
  */
@@ -14,7 +8,7 @@ const accumulateSize = (orders: Order[]) =>
       .reduce((sum, next) => sum + next[1], 0);
 
     return [...acc, { price, size, accumulatedSize }];
-  }, [] as OrderBookItem[]);
+  }, [] as OrderBookItemData[]);
 
 /**
  * Max size from the 5 lowest asks vs 5 highest bids

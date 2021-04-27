@@ -9,23 +9,22 @@ import {
   Animated,
 } from 'react-native';
 
-export interface OrderItemProps {
-  price: number;
-  size: number;
-  accumulatedSize: number;
+export interface OrderBookItemProps extends OrderBookItemData {
   maxSize: number;
   tint: string;
+  testID?: string;
 }
 
 const { width } = Dimensions.get('window');
 
-function OrderItem({
+function OrderBookItem({
   price,
   size,
   accumulatedSize,
   maxSize,
   tint = 'red',
-}: OrderItemProps) {
+  testID = 'OrderBookItem',
+}: OrderBookItemProps) {
   const flashAnimation = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -44,7 +43,7 @@ function OrderItem({
   }, [price]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <View style={styles.container}>
+    <View testID={testID} style={styles.container}>
       <View style={styles.backgroundContainer}>
         <View
           style={[
@@ -89,4 +88,4 @@ const styles = StyleSheet.create({
   background: { height: '100%', opacity: 0.2 },
 });
 
-export default OrderItem;
+export default OrderBookItem;

@@ -1,75 +1,34 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import { Provider } from 'react-redux';
-import configureMockStore from 'redux-mock-store';
-import WS from 'jest-websocket-mock';
-import { act } from 'react-test-renderer';
+import OrderBook, { OrderBookProps } from './OrderBook';
 
-import { messageReceived } from '../actions';
-import OrderBook from './OrderBook';
-import { SOCKET_SUBSCRIBE_MESSAGE, SOCKET_URL } from './useOrderBook';
+// silence useNativeDriver warning from Animated
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
-const store = configureMockStore<RootState>()({
-  orderBook: {
-    error: null,
-    data: {
-      bids: [],
-      asks: [],
-    },
-  },
+const props: OrderBookProps = {
+  bids: [],
+  asks: [],
+  maxSize: 0,
+};
+
+const renderComponent = (newProps: Partial<OrderBookProps> = {}) =>
+  render(<OrderBook {...props} {...newProps} />);
+
+it('should only render header when empty', () => {
+  const { queryByTestId } = renderComponent();
+
+  expect(queryByTestId('OrderBookItem')).toBeNull();
+  expect(queryByTestId('Header')).toBeTruthy();
 });
 
-let server: WS;
-
-const renderComponent = () =>
-  render(
-    <Provider store={store}>
-      <OrderBook />
-    </Provider>,
-  );
-
-beforeEach(() => {
-  server = new WS(SOCKET_URL);
-});
-
-afterEach(() => {
-  store.clearActions();
-  WS.clean();
-});
-
-it('should open web socket connection on mount', async () => {
-  renderComponent();
-
-  await server.connected;
-  await server.nextMessage;
-
-  expect(server.messages[0]).toEqual(SOCKET_SUBSCRIBE_MESSAGE);
-});
-
-it('should dispatch correct action when an error occurs', async () => {
-  renderComponent();
-
-  await server.connected;
-  await server.nextMessage;
-
-  await act(async () => {
-    await server.error();
+it('should render correct number of bids and asks', () => {
+  const { queryAllByTestId } = renderComponent({
+    bids: [{ price: 2, size: 2, accumulatedSize: 2 }],
+    asks: [{ price: 1, size: 1, accumulatedSize: 1 }],
+    maxSize: 2,
   });
 
-  expect(store.getActions()[0].type).toBe('@orderBook/errorReceived');
-});
+  const orders = queryAllByTestId('OrderBookItem');
 
-it('should dispatch correct action when a message is received', async () => {
-  renderComponent();
-
-  await server.connected;
-  await server.nextMessage;
-
-  await act(async () => {
-    await server.send(JSON.stringify({ bids: [[1, 1]], asks: [[2, 2]] }));
-  });
-
-  expect(store.getActions()).toEqual([
-    messageReceived({ bids: [[1, 1]], asks: [[2, 2]] }),
-  ]);
+  expect(orders).toHaveLength(2);
 });

@@ -10,6 +10,12 @@ declare global {
     asks: Order[];
   };
 
+  type OrderBookItemData = {
+    price: number;
+    size: number;
+    accumulatedSize: number;
+  };
+
   // FIXME: rootReducer, actions is not defined
   // eslint-disable-next-line no-undef
   type RootState = StateType<typeof rootReducer>;

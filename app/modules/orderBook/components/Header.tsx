@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Platform } from 'react-native';
 
 function Header() {
   return (
-    <View style={styles.container}>
+    <View testID="Header" style={styles.container}>
       <Text style={styles.cell}>Price</Text>
       <Text style={styles.cell}>Size</Text>
       <Text style={styles.cell}>Total</Text>
